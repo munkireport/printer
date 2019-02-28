@@ -24,16 +24,17 @@ new Printer_model;
 			<th data-i18n="printer.name" data-colname='printer.name'></th>
 			<th data-i18n="printer.ppd" data-colname='printer.ppd'></th>
 			<th data-i18n="printer.driver_version" data-colname='printer.driver_version'></th>
-			<th data-i18n="printer.url" data-colname='printer.URL'></th>
 			<th data-i18n="printer.default_set" data-colname='printer.default_set'></th>
 			<th data-i18n="printer.printer_status" data-colname='printer.printer_status'></th>
-			<th data-i18n="printer.printer_sharing" data-colname='printer.printer_sharing'></th>
+			<th data-i18n="printer.shared" data-colname='printer.shared'></th>
+			<th data-i18n="printer.est_job_count" data-colname='printer.est_job_count'></th>
+			<th data-i18n="printer.url" data-colname='printer.URL'></th>
 		  </tr>
 		</thead>
 
 		<tbody>
 		  <tr>
-			<td data-i18n="listing.loading" colspan="9" class="dataTables_empty"></td>
+			<td data-i18n="listing.loading" colspan="10" class="dataTables_empty"></td>
 		  </tr>
 		</tbody>
 
@@ -104,24 +105,26 @@ new Printer_model;
                 }
 
                 // Default Set
-                var defaultset=$('td:eq(6)', nRow).html();
+                var defaultset=$('td:eq(5)', nRow).html();
                 defaultset = defaultset == 'yes' ? i18n.t('yes') :
-                (defaultset === 'no' ? i18n.t('no') : '')
-                $('td:eq(6)', nRow).html(defaultset)
+                defaultset = defaultset == 1 ? i18n.t('yes') :
+                defaultset = defaultset == 0 ? i18n.t('no') :
+                (defaultset == 'no'? i18n.t('no') : '')
+                $('td:eq(5)', nRow).html(defaultset)
 
                 // Printer Status
-                var printerstatus=$('td:eq(7)', nRow).html();
+                var printerstatus=$('td:eq(6)', nRow).html();
                 printerstatus = printerstatus == 'idle' ? i18n.t('printer.idle') :
                 printerstatus = printerstatus == 'error' ? i18n.t('printer.error') :
                 printerstatus = printerstatus == 'in use' ? i18n.t('printer.in_use') :
-                (printerstatus === 'offline' ? i18n.t('printer.offline') : printerstatus)
-                $('td:eq(7)', nRow).html(printerstatus)
+                (printerstatus == 'offline' ? i18n.t('printer.offline') : printerstatus)
+                $('td:eq(6)', nRow).html(printerstatus)
 
                 // Sharing
-                var printersharing=$('td:eq(8)', nRow).html();
-                printersharing = printersharing == 'yes' ? i18n.t('yes') :
-                (printersharing === 'no' ? i18n.t('no') : '')
-                $('td:eq(8)', nRow).html(printersharing)
+                var printersharing=$('td:eq(7)', nRow).html();
+                printersharing = printersharing == "1" ? i18n.t('yes') :
+                (printersharing == "0" ? i18n.t('no') : '')
+                $('td:eq(7)', nRow).html(printersharing)
 
             } //end fnCreatedRow
 

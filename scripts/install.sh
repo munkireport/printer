@@ -12,7 +12,7 @@ if [ $? = 0 ]; then
 	chmod a+x "${MUNKIPATH}preflight.d/printer.py"
 
 	# Set preference to include this file in the preflight check
-	setreportpref "printer" "${CACHEPATH}printer.txt"
+	setreportpref "printer" "${CACHEPATH}printer.plist"
 
 else
 	echo "Failed to download all required components!"
@@ -21,4 +21,3 @@ else
 	# Signal that we had an error
 	ERR=1
 fi
-
