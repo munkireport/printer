@@ -187,6 +187,10 @@ def main():
         if sys.argv[1] == 'manualcheck':
             print 'Manual check: skipping'
             exit(0)
+            
+    # Set the encoding
+    reload(sys)  
+    sys.setdefaultencoding('utf8')
 
     # Get results
     result = dict()
