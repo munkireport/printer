@@ -11,6 +11,10 @@ $(document).on('appReady', function(){
         if( ! data ){
             $('#printer-msg').text(i18n.t('no_data'));
             $('#printer-cnt').text("");
+        } else if (data[0]['printer_status'] == 'no_info_found') {
+			$('#printer-msg').text(i18n.t('printer.no_info_found'));
+            // Update the tab badge
+            $('#printer-cnt').text('0');
         } else {
             // Set count of printers
             $('#printer-cnt').text(data.length);
