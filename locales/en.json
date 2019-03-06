@@ -21,7 +21,7 @@
     "state_time": "State Time",
     "config_time": "Configured Time",
     "cups_filters": "CUPS Filter Info",
-    "cupsversion": "CUPS Verison",
+    "cupsversion": "CUPS Version",
     "ppdfileversion": "PPD File Version",
     "printer_utility": "Printer Utility",
     "printer_status": "Printer Status",
@@ -36,5 +36,6 @@
     "filter_permissions": "Permissions",
     "filter_version": "Version",
     "filter_path": "Path",
+    "no_info_found": "No Printers Installed",
     "url": "URL"
 }
