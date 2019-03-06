@@ -74,34 +74,38 @@ def get_printer_info():
         
         # Add in state and queue name
         for printer in cups_prefs:
-            if printer['printer_name'] == device['name']:
-                for item in printer:
-                    if item == 'queue_name':
-                        device['queue_name'] = printer[item]
-                    elif item == 'state_reasons':
-                        device['state_reasons'] = ', '.join(list(printer[item]))
-                    elif item == 'model_make':
-                        device['model_make'] = printer[item]
-                        
-                break
+            if 'printer_name' in printer and 'name' in device:
+                if printer['printer_name'] == device['name']:
+                    for item in printer:
+                        if item == 'queue_name':
+                            device['queue_name'] = printer[item]
+                        elif item == 'state_reasons':
+                            device['state_reasons'] = ', '.join(list(printer[item]))
+                        elif item == 'model_make':
+                            device['model_make'] = printer[item]
+
+                    break
+            break
  
         # Add in config options        
         for printer in cups_conf:
-            if printer['name'] == device['queue_name']:
-                for item in printer:
-                    if item == 'auth_info_required':
-                        device['auth_info_required'] = printer[item]
-                    elif item == 'location':
-                        device['location'] = printer[item]
-                    elif item == 'state_time':
-                        device['state_time'] = printer[item]
-                    elif item == 'config_time':
-                        device['config_time'] = printer[item]
-                    elif item == 'accepting':
-                        device['accepting'] = str_to_bool(printer[item])
-                break
+            if 'name' in printer and 'queue_name' in device:
+                if printer['name'] == device['queue_name']:
+                    for item in printer:
+                        if item == 'auth_info_required':
+                            device['auth_info_required'] = printer[item]
+                        elif item == 'location':
+                            device['location'] = printer[item]
+                        elif item == 'state_time':
+                            device['state_time'] = printer[item]
+                        elif item == 'config_time':
+                            device['config_time'] = printer[item]
+                        elif item == 'accepting':
+                            device['accepting'] = str_to_bool(printer[item])
+                    break
+            break
                 
-        if job_cache_data is not "":
+        if job_cache_data is not "" and 'queue_name' in device:
             device['est_job_count'] = job_cache_data.count(device['queue_name'])
                 
         out.append(device)
