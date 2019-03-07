@@ -62,20 +62,26 @@ $(document).on('appReady', function(){
                         // Else if build out the cups_filters table
                         else if(prop == "cups_filters"){
                             var cups_filters_data = JSON.parse(d['cups_filters']);
-                            cups_filter_rows = '<tr><th style="max-width: 140px;">'+i18n.t('printer.filter_name')+'</th><th style="max-width: 85px;">'+i18n.t('printer.filter_permissions')+'</th><th style="max-width: 60px;">'+i18n.t('printer.filter_version')+'</th><th style="max-width: 300px;">'+i18n.t('printer.filter_path')+'</th></tr>'
-                            $.each(cups_filters_data.reverse(), function(i,d){
-                                if (typeof d['_name'] !== "undefined") {var printer_name = d['_name']} else {var printer_name = ""}
-                                if (typeof d['filter permissions'] !== "undefined") {var filter_permissions = d['filter permissions']} else {var filter_permissions = ""}
-                                if (typeof d['filter version'] !== "undefined") {var filter_version = d['filter version']} else {var filter_version = ""}
-                                if (typeof d['filter path'] !== "undefined") {var filter_path = d['filter path']} else {var filter_path = ""}
-                                // Generate rows from data
-                                cups_filter_rows = cups_filter_rows + '<tr><td>'+printer_name+'</td><td>'+filter_permissions+'</td><td>'+filter_version+'</td><td>'+filter_path+'</td></tr>';
-                            })
-                            cups_filter_rows = cups_filter_rows // Close cups_filters table framework
+                            // Only build table if it contains a filter name
+                            if (d['cups_filters'].includes("_name")){
+                                cups_filter_rows = '<tr><th style="max-width: 140px;">'+i18n.t('printer.filter_name')+'</th><th style="max-width: 85px;">'+i18n.t('printer.filter_permissions')+'</th><th style="max-width: 60px;">'+i18n.t('printer.filter_version')+'</th><th style="max-width: 300px;">'+i18n.t('printer.filter_path')+'</th></tr>'
+                                $.each(cups_filters_data.reverse(), function(i,d){
+                                    // Only add row if it has a filter name
+                                    if(d.hasOwnProperty('_name')){
+                                        if (typeof d['_name'] !== "undefined") {var printer_name = d['_name']} else {var printer_name = ""}
+                                        if (typeof d['filter permissions'] !== "undefined") {var filter_permissions = d['filter permissions']} else {var filter_permissions = ""}
+                                        if (typeof d['filter version'] !== "undefined") {var filter_version = d['filter version']} else {var filter_version = ""}
+                                        if (typeof d['filter path'] !== "undefined") {var filter_path = d['filter path']} else {var filter_path = ""}
+                                        // Generate rows from data
+                                        cups_filter_rows = cups_filter_rows + '<tr><td>'+printer_name+'</td><td>'+filter_permissions+'</td><td>'+filter_version+'</td><td>'+filter_path+'</td></tr>';
+                                    }
+                                })
+                                cups_filter_rows = cups_filter_rows // Close cups_filters table framework
+                            }
                         }
 
                         else {
-                        rows = rows + '<tr><th style="width: 165px;">'+i18n.t('printer.'+prop)+'</th><td style="max-width: 500px;">'+d[prop]+'</td></tr>';
+                            rows = rows + '<tr><th style="width: 165px;">'+i18n.t('printer.'+prop)+'</th><td style="max-width: 500px;">'+d[prop]+'</td></tr>';
                         }
                     }
                 }
