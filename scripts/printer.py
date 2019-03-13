@@ -105,7 +105,7 @@ def get_printer_info():
                     break
             break
                 
-        if job_cache_data is not "" and 'queue_name' in device:
+        if os.path.isfile('/var/spool/cups/cache/job.cache') and job_cache_data is not "" and 'queue_name' in device:
             device['est_job_count'] = job_cache_data.count(device['queue_name'])
                 
         out.append(device)
