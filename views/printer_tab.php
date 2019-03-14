@@ -8,8 +8,8 @@
 $(document).on('appReady', function(){
     $.getJSON(appUrl + '/module/printer/get_data/' + serialNumber, function(data){
         
-        if( ! data ){
-            $('#printer-msg').text(i18n.t('no_data'));
+        if( ! data || ! data[0] ){
+            $('#printer-msg').text(i18n.t('printer.no_info_found'));
             $('#printer-cnt').text("");
         } else if (data[0]['printer_status'] == 'no_info_found') {
 			$('#printer-msg').text(i18n.t('printer.no_info_found'));
