@@ -1,12 +1,5 @@
 <?php $this->view('partials/head'); ?>
 
-<?php
-//Initialize models needed for the table
-new Machine_model;
-new Reportdata_model;
-new Printer_model;
-?>
-
 <div class="container">
 
   <div class="row">
