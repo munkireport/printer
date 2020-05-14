@@ -25,34 +25,12 @@ class Printer_controller extends Module_controller
     {
         echo "You've loaded the printer module!";
     }
-    
-    /**
-     * Get printers for serial_number
-     *
-     * @param string $serial serial number
-     **/
-    public function get_data($serial = '')
-    {
-
-        $out = array();
-        if (! $this->authorized()) {
-            $out['error'] = 'Not authorized';
-        } else {
-            $prm = new Printer_model;
-            foreach ($prm->retrieve_records($serial) as $printer) {
-                $out[] = $printer->rs;
-            }
-        }
-        
-        $obj = new View();
-        $obj->view('json', array('msg' => $out));
-    }
 
     /**
      * Get printer information for printer widget
      *
      * @return void
-     * @author John Eberle (tuxudo)
+     * @author tuxudo
      **/
     public function get_printers()
     {
@@ -65,5 +43,30 @@ class Printer_controller extends Module_controller
         
         $printers = new Printer_model;
         $obj->view('json', array('msg' => $printers->get_printers()));
+    } 
+    
+    /**
+     * Get printers for serial_number for client tab
+     *
+     * @param string $serial serial number
+     **/
+    public function get_data($serial = '')
+    { 
+        $obj = new View();
+
+        if (! $this->authorized()) {
+            $obj->view('json', array('msg' => 'Not authorized'));
+            return;
+        }
+        
+        $queryobj = new Printer_model();
+        
+        $sql = "SELECT name, model_make, queue_name, location, ppd, url, printer_status, default_set, printer_sharing, fax_support, scanner, shared, accepting, est_job_count, state_time, creation_date, config_time, driver_version, ppdfileversion, printer_utility, printer_utility_version, printercommands, auth_info_required, state_reasons, cupsversion, cups_filters
+                        FROM printer 
+                        WHERE serial_number = '$serial'";
+        
+        $printer_tab = $queryobj->query($sql);
+        $obj->view('json', array('msg' => current(array('msg' => $printer_tab)))); 
+        
     }
-} // END class default_module
+} // END class Printer_module
