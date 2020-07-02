@@ -149,12 +149,14 @@ class Printer_model extends \Model
                     // Set the db fields to be the same as those in the preference file
                     } else {
                         $this->$item = $printer[$item];
-                    }                    
+                    }
                 }
-                                
-                // Save the data as one would save a print job
-                $this->id = '';
-                $this->save(); 
+
+                // Save the data as one would save a print job, but only if the printer name is set
+                if (array_key_exists('name',$printer)){
+                    $this->id = '';
+                    $this->save();
+                }
             }
         }
     }
