@@ -1,0 +1,16 @@
+client_tabs:
+    printer-tab:
+        view: printer_tab
+        i18n: printer.printers
+        badge: printer-cnt
+listings:
+    printers:
+        view: printers_listing
+        i18n: printer.printers
+reports:
+    printer:
+        view: printer_report
+        i18n: printer.report
+widgets:
+    printer:
+        view: printer_widget

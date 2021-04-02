@@ -1,0 +1,9 @@
+type: scrollbox
+widget_id: printers-widget
+api_url: /module/printer/get_printers
+i18n_title: printer.printers
+icon: fa-print
+listing_link: /show/listing/printer/printers
+search_key: name
+i18n_empty_result: no_data
+badge: count

@@ -182,17 +182,7 @@ def to_bool(s):
     
 def main():
     """Main"""
-    # Create cache dir if it does not exist
-    cachedir = '%s/cache' % os.path.dirname(os.path.realpath(__file__))
-    if not os.path.exists(cachedir):
-        os.makedirs(cachedir)
 
-    # Skip manual check
-    if len(sys.argv) > 1:
-        if sys.argv[1] == 'manualcheck':
-            print 'Manual check: skipping'
-            exit(0)
-            
     # Set the encoding
     reload(sys)  
     sys.setdefaultencoding('utf8')
@@ -200,8 +190,9 @@ def main():
     # Get results
     result = dict()
     result = get_printer_info()
-    
+
     # Write printer results to cache
+    cachedir = '%s/cache' % os.path.dirname(os.path.realpath(__file__))
     output_plist = os.path.join(cachedir, 'printer.plist')
     plistlib.writePlist(result, output_plist)
     #print plistlib.writePlistToString(result)
