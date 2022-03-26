@@ -1,13 +1,13 @@
-#!/usr/local/munkireport/munkireport-python2
+#!/usr/local/bin/python3
 
 import subprocess
 import os
 import plistlib
 import sys
-sys.path.insert(0, '/usr/local/munki')
-sys.path.insert(0, '/usr/local/munkireport')
+# sys.path.insert(0, '/usr/local/munki')
+# sys.path.insert(0, '/usr/local/munkireport')
 
-from munkilib import FoundationPlist
+# from munkilib import FoundationPlist
 
 
 def get_printer_info():
@@ -18,7 +18,10 @@ def get_printer_info():
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     (output, unused_error) = proc.communicate()
     try:
-        plist = plistlib.readPlistFromString(output)
+        try:
+            plist = plistlib.readPlistFromString(output)
+        except AttributeError as e:
+            plist = plistlib.loads(output)
         # system_profiler xml is an array
         sp_dict = plist[0]
         items = sp_dict['_items']
@@ -106,7 +109,7 @@ def get_printer_info():
                     break
             break
                 
-        if os.path.isfile('/var/spool/cups/cache/job.cache') and job_cache_data is not "" and 'queue_name' in device:
+        if os.path.isfile('/var/spool/cups/cache/job.cache') and job_cache_data !=  "" and 'queue_name' in device:
             device['est_job_count'] = job_cache_data.count(device['queue_name'])
                 
         out.append(device)
@@ -115,7 +118,10 @@ def get_printer_info():
 def get_cups_prefs():
     
     try:
-        plist = FoundationPlist.readPlist("/Library/Preferences/org.cups.printers.plist")
+        # try:
+        plist = plistlib.loads("/Library/Preferences/org.cups.printers.plist")
+        # except AttributeError as e:
+            # plist = FoundationPlist.readPlist("/Library/Preferences/org.cups.printers.plist")
         out = []
         
         for printer in plist:
@@ -183,9 +189,9 @@ def to_bool(s):
 def main():
     """Main"""
 
-    # Set the encoding
-    reload(sys)  
-    sys.setdefaultencoding('utf8')
+    # # Set the encoding
+    # importlib.reload(sys)  
+    # sys.setdefaultencoding('utf8')
 
     # Get results
     result = dict()
@@ -194,8 +200,11 @@ def main():
     # Write printer results to cache
     cachedir = '%s/cache' % os.path.dirname(os.path.realpath(__file__))
     output_plist = os.path.join(cachedir, 'printer.plist')
-    plistlib.writePlist(result, output_plist)
-    #print plistlib.writePlistToString(result)
+    try:
+        plistlib.writePlist(result, output_plist)
+    except:
+        with open(output_plist, 'wb') as fp:
+            plistlib.dump(result, fp, fmt=plistlib.FMT_XML)
 
 if __name__ == "__main__":
     main()
