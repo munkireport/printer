@@ -4,10 +4,6 @@ import subprocess
 import os
 import plistlib
 import sys
-sys.path.insert(0, '/usr/local/munki')
-sys.path.insert(0, '/usr/local/munkireport')
-
-from munkilib import FoundationPlist
 
 
 def get_printer_info():
@@ -118,10 +114,8 @@ def get_printer_info():
 def get_cups_prefs():
     
     try:
-        try:
-            plist = plistlib.loads("/Library/Preferences/org.cups.printers.plist")
-        except Exception:
-            plist = FoundationPlist.readPlist("/Library/Preferences/org.cups.printers.plist")
+        with open("/Library/Preferences/org.cups.printers.plist", 'rb') as fp:
+            plist = plistlib.load(fp)
 
         out = []
         
