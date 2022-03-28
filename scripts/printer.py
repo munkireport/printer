@@ -1,13 +1,13 @@
-#!/usr/local/bin/python3
+#!/usr/local/munki/munki-python
 
 import subprocess
 import os
 import plistlib
 import sys
-# sys.path.insert(0, '/usr/local/munki')
-# sys.path.insert(0, '/usr/local/munkireport')
+sys.path.insert(0, '/usr/local/munki')
+sys.path.insert(0, '/usr/local/munkireport')
 
-# from munkilib import FoundationPlist
+from munkilib import FoundationPlist
 
 
 def get_printer_info():
@@ -118,10 +118,11 @@ def get_printer_info():
 def get_cups_prefs():
     
     try:
-        # try:
-        plist = plistlib.loads("/Library/Preferences/org.cups.printers.plist")
-        # except AttributeError as e:
-            # plist = FoundationPlist.readPlist("/Library/Preferences/org.cups.printers.plist")
+        try:
+            plist = plistlib.loads("/Library/Preferences/org.cups.printers.plist")
+        except Exception:
+            plist = FoundationPlist.readPlist("/Library/Preferences/org.cups.printers.plist")
+
         out = []
         
         for printer in plist:
