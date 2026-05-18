@@ -65,7 +65,9 @@ class Printer_controller extends Module_controller
 
         $sql = "SELECT name, model_make, queue_name, location, ppd, url, printer_status, default_set, printer_sharing, fax_support, scanner, shared, accepting, est_job_count, state_time, creation_date, config_time, driver_version, ppdfileversion, printer_utility, printer_utility_version, printercommands, auth_info_required, state_reasons, cupsversion, cups_filters
                         FROM printer 
-                        WHERE serial_number = '$serial_number'";
+                        LEFT JOIN reportdata USING (serial_number)
+                        ".get_machine_group_filter()."
+                        AND serial_number = '$serial_number'";
         
         $queryobj = new Printer_model;
         jsonView($queryobj->query($sql));        
