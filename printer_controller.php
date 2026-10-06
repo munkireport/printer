@@ -61,7 +61,7 @@ class Printer_controller extends Module_controller
     public function get_data($serial_number = '')
     {         
         // Remove non-serial number characters
-        $serial_number = preg_replace("/[^A-Za-z0-9_\-]]/", '', $serial_number);
+        $serial_number = preg_replace("/[^A-Za-z0-9_\-]/", '', $serial_number);
 
         $sql = "SELECT name, model_make, queue_name, location, ppd, url, printer_status, default_set, printer_sharing, fax_support, scanner, shared, accepting, est_job_count, state_time, creation_date, config_time, driver_version, ppdfileversion, printer_utility, printer_utility_version, printercommands, auth_info_required, state_reasons, cupsversion, cups_filters
                         FROM printer 
